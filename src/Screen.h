@@ -1,0 +1,5 @@
+
+class Screen {
+    public:
+        Screen();
+};
