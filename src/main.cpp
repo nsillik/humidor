@@ -1,5 +1,3 @@
-#include <Adafruit_ssd1306syp.h>
-
 #include <App.h>
 
 #define SDA_PIN D1

@@ -1,25 +1,27 @@
 #include "Screen.h"
 #include <Arduino.h>
-#include <Adafruit_ssd1306syp.h>
+#include <Wire.h>
 
-Screen::Screen(uint8_t sda, uint8_t scl)
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+
+Screen::Screen(uint8_t sda, uint8_t scl, TwoWire *wire)
 {
-    display = new Adafruit_ssd1306syp(sda, scl); // = Adafruit_ssd1306syp display(D1, D2);
-
+    display = new Adafruit_SSD1306(SCREEN_WIDTH, SCREEN_HEIGHT, wire, -1);
 }
 
 void Screen::setup() {
-    display->initialize();
-    display->clear();
+    display->begin(SSD1306_SWITCHCAPVCC, 0x3c, false, false);
+    display->clearDisplay();
     display->setTextSize(3);
     display->setTextColor(WHITE);
     display->setCursor(20, 20);
     display->print("BEEP");
-    display->update();
+    display->display();
 }
 
 void Screen::displayTempAndHumidity(float temp, float humidity) {
-      display->clear();
+      display->clearDisplay();
       display->setTextSize(3);
       display->setTextColor(WHITE);
       display->setCursor(10, 10);
@@ -30,21 +32,21 @@ void Screen::displayTempAndHumidity(float temp, float humidity) {
       display->print("H: ");
       display->printf("%.0f", humidity);
       display->print("%");
-      display->update();
+      display->display();
 }
 
 void Screen::showConnecting(){
-    display->clear();
-    display->setTextSize(2);
+    display->clearDisplay();
+    display->setTextSize(1);
     display->setCursor(10, 10);
     display->print("Connecting.");
-    display->update();
+    display->display();
 }
 
 void Screen::showWifiFailure() {
-    display->clear();
+    display->clearDisplay();
     display->setTextSize(2);
     display->setCursor(10, 10);
     display->print("CONN FAILED");
-    display->update();
+    display->display();
 }
